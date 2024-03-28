@@ -11,6 +11,7 @@ DFRobot_ESP_PH_WITH_ADC ph;
 uint8_t ec_pin = A6;
 uint8_t ph_pin = A4;
 uint8_t o2_pin = A7;
+String amer;
 uint8_t SoilMoisture_pin = A5;
 uint8_t temperature_pin = 25;
 double _moisture, sensor_analog;
