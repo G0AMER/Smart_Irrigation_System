@@ -146,4 +146,160 @@
  C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
  .pio/libdeps/esp32dev/OneWire/OneWire.h \
  .pio/libdeps/esp32dev/OneWire/util/OneWire_direct_regtype.h \
- .pio/libdeps/esp32dev/DallasTemperature/DallasTemperature.h
+ .pio/libdeps/esp32dev/DallasTemperature/DallasTemperature.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFi.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPv6Address.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiType.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include/esp_wifi_types.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include/esp_private/esp_wifi_types_private.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/esp_interface.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_base.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiSTA.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiGeneric.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_base.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_legacy.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif_ip_addr.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif_types.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif_defaults.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_eth/include/esp_eth_netif_glue.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_eth/include/esp_eth.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_eth/include/esp_eth_com.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/hal/include/hal/eth_types.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_eth/include/esp_eth_mac.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_eth/include/esp_eth_phy.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/tcpip_adapter/include/tcpip_adapter.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/tcpip_adapter/include/tcpip_adapter_types.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip_addr.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/opt.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/port/esp32/include/lwipopts.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include/sys/ioctl.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_system/include/esp_task.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos/FreeRTOSConfig.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/port/esp32/include/netif/dhcp_state.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/port/esp32/include/sntp/sntp_get_set_time.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/debug.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/arch.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/port/esp32/include/arch/cc.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/port/esp32/include/arch/sys_arch.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/port/esp32/include/arch/vfs_lwip.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/def.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip4_addr.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip6_addr.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/def.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip6_zone.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/include/apps/dhcpserver/dhcpserver.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/err.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif_sta_list.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include/esp_smartconfig.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/wifi_provisioning/include/wifi_provisioning/manager.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/protocomm/include/common/protocomm.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/protocomm/include/security/protocomm_security.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/wifi_provisioning/include/wifi_provisioning/wifi_config.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiAP.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiScan.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiClient.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/Client.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiServer.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/Server.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/Firebase_ESP_Client.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/Firebase.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./core/Firebase_Client_Version.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./mbfs/MB_MCU.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FirebaseFS.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/LittleFS/src/LittleFS.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/FS/src/FS.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/SD/src/SD.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/SD/src/sd_defines.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/././core/Firebase_Build_Options.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FB_Const.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/././FirebaseFS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/././FB_Network.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/././FirebaseFS.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/Ethernet/src/ETH.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/././mbfs/MB_FS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/././mbfs/MB_FS_Interfaces.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FirebaseFS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/json/FirebaseJson.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/json/MB_List.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/json/MB_String.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/json/MB_JSON/MB_JSON.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/libraries/Update/src/Update.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/cores/esp32/MD5Builder.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_rom/include/esp_rom_md5.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FB_Error.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/FB_Utils.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/client/FB_TCP_Client.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FB_Error.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FB_Const.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./mbfs/MB_FS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FB_Utils.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/ESP_SSLClient.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/ESP_SSLClient_FS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/Custom_ESP_SSLClient_FS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/ESP_SSLClient_Const.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/BSSL_TCP_Client.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../ESP_SSLClient_Const.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/BSSL_SSL_Client.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/BSSL_Helper.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_hash.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_hmac.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_kdf.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_rand.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_block.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_prf.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_aead.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_rsa.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_ec.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_ssl.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_x509.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/../bssl/bearssl_pem.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/SSLClient/client/BSSL_CertStore.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./FB_Network.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/sockets.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include/sys/poll.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/netif.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/pbuf.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/stats.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/mem.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/memp.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/priv/memp_std.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/priv/memp_priv.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/priv/mem_priv.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/inet.h \
+ C:/Users/gamer/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/errno.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/client/WiFiClientImpl.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/core/FirebaseCore.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./client/FB_TCP_Client.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/session/FB_Session.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./core/FirebaseCore.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/stream/FB_Stream.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/stream/FB_MP_Stream.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/stream/FB_Stream.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/QueueInfo.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/QueryFilter.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/QueueManager.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./rtdb/QueueInfo.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/rtdb/FB_RTDB.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./session/FB_Session.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/rtdb/QueueInfo.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/rtdb/./stream/FB_MP_Stream.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/rtdb/./stream/FB_Stream.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/message/FCM.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/storage/FCS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/gcs/GCS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/firestore/FB_Firestore.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/./json/FirebaseJson.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/functions/FB_Functions.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/functions/FunctionsConfig.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/functions/PolicyBuilder.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/functions/FunctionsConfig.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/addons/TokenHelper.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/FirebaseFS.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/Firebase.h \
+ .pio/libdeps/esp32dev/Firebase\ Arduino\ Client\ Library\ for\ ESP8266\ and\ ESP32/src/addons/RTDBHelper.h

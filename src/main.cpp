@@ -4,6 +4,63 @@
 #include "Adafruit_SSD1306.h"
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <WiFi.h>
+#include <Firebase_ESP_Client.h>
+#include "addons/TokenHelper.h"
+#include "addons/RTDBHelper.h"
+#include "time.h"
+
+// WiFi credentials
+#define WIFI_SSID "GARGOURI"
+#define WIFI_PASSWORD "05254872"
+
+// Insert Authorized Email and Corresponding Password
+#define USER_EMAIL "system1@login.com"
+#define USER_PASSWORD "system1"
+
+// Firebase credentials
+#define API_KEY "AIzaSyDV924r10N-EcnC-RbeOVyjZldoncvOe6g "                                             // Replace with your Firebase API key
+#define DATABASE_URL "https://smart-irrigation-74f17-default-rtdb.europe-west1.firebasedatabase.app/"  // Replace with your Firebase database URL
+
+FirebaseData fbdo;
+FirebaseAuth auth;
+FirebaseConfig config;
+
+// Variable to save USER UID
+String uid;
+
+// Database main path (to be updated in setup with the user UID)
+String databasePath;
+// Database child nodes
+String ECPath = "/ec";
+String moisPath = "/moisture";
+String tempPath = "/temperature";
+String timePath = "/timestamp";
+String o2Path = "/o2";
+String pHPath = "/pH";
+
+// Parent Node (to be updated in every loop)
+String parentPath;
+
+int timestamp;
+FirebaseJson json;
+
+const char *ntpServer = "pool.ntp.org";
+// Timer variables (send new readings every three minutes)
+unsigned long sendDataPrevMillis = 0;
+unsigned long timerDelay = 5000;
+bool signupOK = false;
+
+unsigned long getTime() {
+    time_t now;
+    struct tm timeinfo;
+    if (!getLocalTime(&timeinfo)) {
+        //Serial.println("Failed to obtain time");
+        return (0);
+    }
+    time(&now);
+    return now;
+}
 
 
 DFRobot_ESP_EC ec;
@@ -68,29 +125,110 @@ void setup() {
     ec.begin();
     ph.begin();
     sensors.begin();
+    configTime(0, 0, ntpServer);
+
+    // Connect to WiFi
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.println("Connecting to WiFi...");
+        delay(300);
+    }
+    Serial.println();
+    Serial.print("Connected to WiFi with IP: ");
+    Serial.println(WiFi.localIP());
+    Serial.println();
+
+    config.api_key = API_KEY;
+    config.database_url = DATABASE_URL;
+    // Assign the user sign in credentials
+    auth.user.email = USER_EMAIL;
+    auth.user.password = USER_PASSWORD;
+
+    if (Firebase.signUp(&config, &auth, "", "")) {
+        Serial.println("signUp OK");
+        signupOK = true;
+    } else {
+        Serial.printf("%s\n", config.signer.signupError.message.c_str());
+    }
+
+    Firebase.reconnectWiFi(true);
+    fbdo.setResponseSize(4096);
+
+    // Assign the callback function for the long running token generation task */
+    config.token_status_callback = tokenStatusCallback;  //see addons/TokenHelper.h
+
+    // Assign the maximum retry of token generation
+    config.max_token_generation_retry = 5;
+
+    // Initialize the library with the Firebase authen and config
+    Firebase.begin(&config, &auth);
+
+    // Getting the user UID might take a few seconds
+    Serial.println("Getting User UID");
+    while ((auth.token.uid) == "") {
+        Serial.print('.');
+        delay(1000);
+    }
+    // Print user UID
+    uid = auth.token.uid.c_str();
+    Serial.print("User UID: ");
+    Serial.println(uid);
+
+    // Update database path
+    databasePath = "/SystemsData/" + uid + "/readings";
+}
+
+void send_to_firebase(float ec, float o2, float ph, float moisture, float tem) {
+    if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)) {
+        sendDataPrevMillis = millis();
+
+        //Get current timestamp
+        timestamp = getTime();
+        Serial.print("time: ");
+        Serial.println(timestamp);
+
+
+        parentPath = databasePath + "/" + String(timestamp);
+
+
+        json.set(ECPath.c_str(), String(ec));
+        json.set(pHPath.c_str(), String(ph));
+        json.set(o2Path.c_str(), String(o2));
+        json.set(tempPath.c_str(), String(tem));
+        json.set(moisPath.c_str(), String(moisture));
+        json.set(timePath, String(timestamp));
+        Serial.printf("Set json... %s\n",
+                      Firebase.RTDB.setJSON(&fbdo, parentPath.c_str(), &json) ? "ok" : fbdo.errorReason().c_str());
+
+    }
 }
 
 float readTemperature() {
-    sensors.requestTemperatures();
-    if (sensors.getTempCByIndex(0) == -127) {
-        Serial.print("Celsius temperature (Not Sure): ");
-        Serial.println(CAL1_T);
-        return CAL1_T;
+    static unsigned long timepoint = millis();
+    if (millis() - timepoint > timerDelay) //time interval: 1s
+    {
+        timepoint = millis();
+        sensors.requestTemperatures();
+        if (sensors.getTempCByIndex(0) == -127) {
+            Serial.print("Celsius temperature (Not Sure): ");
+            Serial.println(CAL1_T);
+            return CAL1_T;
 
-    } else {
-        Serial.print("Celsius temperature: ");
-        // Why "byIndex"? You can have more than one IC on the same bus. 0 refers to the first IC on the wire
-        Serial.print(sensors.getTempCByIndex(0));
-        Serial.print(" - Fahrenheit temperature: ");
-        Serial.println(sensors.getTempFByIndex(0));
+        } else {
+            Serial.print("Celsius temperature: ");
+            // Why "byIndex"? You can have more than one IC on the same bus. 0 refers to the first IC on the wire
+            Serial.print(sensors.getTempCByIndex(0));
+            Serial.print(" - Fahrenheit temperature: ");
+            Serial.println(sensors.getTempFByIndex(0));
 
-        return sensors.getTempCByIndex(0);
+            return sensors.getTempCByIndex(0);
+        }
     }
 }
 
 float readEC(uint8_t EC_PIN) {
     static unsigned long timepoint = millis();
-    if (millis() - timepoint > 1000U) //time interval: 1s
+    if (millis() - timepoint > timerDelay) //time interval: 1s
     {
 
         timepoint = millis();
@@ -109,7 +247,7 @@ float readEC(uint8_t EC_PIN) {
 
 float readPh(uint8_t PH_PIN) {
     static unsigned long timepoint = millis();
-    if (millis() - timepoint > 1000U) //time interval: 1s
+    if (millis() - timepoint > timerDelay) //time interval: 1s
     {
         timepoint = millis();
 
@@ -127,7 +265,7 @@ float readPh(uint8_t PH_PIN) {
 float readO2(uint8_t DO_PIN) {
 
     static unsigned long timepoint = millis();
-    if (millis() - timepoint > 1000U) //time interval: 1s
+    if (millis() - timepoint > timerDelay) //time interval: 1s
     {
         timepoint = millis();
         Temperaturet = (uint8_t) readTemperature();
@@ -139,9 +277,9 @@ float readO2(uint8_t DO_PIN) {
     return DOvalue;
 }
 
-double readSoilMoisture(uint8_t pin) {
+float readSoilMoisture(uint8_t pin) {
     static unsigned long timepoint = millis();
-    if (millis() - timepoint > 1000U) //time interval: 1s
+    if (millis() - timepoint > timerDelay) //time interval: 1s
     {
         timepoint = millis();
         sensor_analog = analogRead(pin);
@@ -158,4 +296,7 @@ void loop() {
     readPh(ph_pin);
     readO2(o2_pin);
     readSoilMoisture(SoilMoisture_pin);
+    send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
+                     readTemperature());
+
 }
