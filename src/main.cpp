@@ -116,7 +116,7 @@ float readPh(uint8_t PH_PIN) {
 
         voltage = (analogRead(PH_PIN) / 4096.0F) * 5000;
 
-        phValue = -ph.readPH(voltage, readTemperature()); // convert voltage to pH with temperature compensation
+        phValue = ph.readPH(voltage, readTemperature()); // convert voltage to pH with temperature compensation
         Serial.print("pH:");
         Serial.println(phValue);
     }
