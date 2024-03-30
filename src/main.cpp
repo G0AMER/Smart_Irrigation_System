@@ -200,7 +200,7 @@ void setup() {
     // Update database path
     databasePath = "/SystemsData/" + uid + "/readings";
 
-    setCpuFrequencyMhz(80);
+    setCpuFrequencyMhz(81);
 }
 
 void send_to_firebase(float ec, float o2, float ph, float moisture, float tem) {
