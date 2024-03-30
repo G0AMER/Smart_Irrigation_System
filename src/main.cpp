@@ -65,12 +65,19 @@ unsigned long getTime() {
 
 DFRobot_ESP_EC ec;
 DFRobot_ESP_PH_WITH_ADC ph;
+
 uint8_t ec_pin = A6;
 uint8_t ph_pin = A4;
 uint8_t o2_pin = A7;
-
 uint8_t SoilMoisture_pin = A5;
 uint8_t temperature_pin = 25;
+
+#define SCREEN_WIDTH 128  // OLED display width
+#define SCREEN_HEIGHT 64  // OLED display height
+
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
+
 double _moisture, sensor_analog;
 // Set up a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(temperature_pin);
@@ -119,6 +126,18 @@ int16_t readDO(uint32_t voltage_mv, uint8_t temperature_c) {
 #endif
 }
 
+void affiche1(String s) {
+    // text display tests
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    display.setTextSize(1);
+    //**//*display.setCursor(25, 20);*//**//*
+    display.print(s);
+    display.display();
+    display.clearDisplay();
+
+}
+
 void setup() {
     Serial.begin(115200);
     EEPROM.begin(32);//needed EEPROM.begin to store calibration k in eeprom
@@ -126,7 +145,11 @@ void setup() {
     ph.begin();
     sensors.begin();
     configTime(0, 0, ntpServer);
-
+    display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // Address 0x3C for 128x32
+    display.clearDisplay();
+    display.display();
+    /*display.setFont(&FreeSerifBold9pt7b);*/
+    affiche1("READY");
     // Connect to WiFi
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     while (WiFi.status() != WL_CONNECTED) {
@@ -176,6 +199,8 @@ void setup() {
 
     // Update database path
     databasePath = "/SystemsData/" + uid + "/readings";
+
+    setCpuFrequencyMhz(80);
 }
 
 void send_to_firebase(float ec, float o2, float ph, float moisture, float tem) {
@@ -204,25 +229,21 @@ void send_to_firebase(float ec, float o2, float ph, float moisture, float tem) {
 }
 
 float readTemperature() {
-    static unsigned long timepoint = millis();
-    if (millis() - timepoint > timerDelay) //time interval: 1s
-    {
-        timepoint = millis();
-        sensors.requestTemperatures();
-        if (sensors.getTempCByIndex(0) == -127) {
-            Serial.print("Celsius temperature (Not Sure): ");
-            Serial.println(CAL1_T);
-            return CAL1_T;
 
-        } else {
-            Serial.print("Celsius temperature: ");
-            // Why "byIndex"? You can have more than one IC on the same bus. 0 refers to the first IC on the wire
-            Serial.print(sensors.getTempCByIndex(0));
-            Serial.print(" - Fahrenheit temperature: ");
-            Serial.println(sensors.getTempFByIndex(0));
+    sensors.requestTemperatures();
+    if (sensors.getTempCByIndex(0) == -127) {
+        Serial.print("Celsius temperature (Not Sure): ");
+        Serial.println(CAL1_T);
+        return CAL1_T;
 
-            return sensors.getTempCByIndex(0);
-        }
+    } else {
+        Serial.print("Celsius temperature: ");
+        // Why "byIndex"? You can have more than one IC on the same bus. 0 refers to the first IC on the wire
+        Serial.print(sensors.getTempCByIndex(0));
+        Serial.print(" - Fahrenheit temperature: ");
+        Serial.println(sensors.getTempFByIndex(0));
+
+        return sensors.getTempCByIndex(0);
     }
 }
 
@@ -254,7 +275,7 @@ float readPh(uint8_t PH_PIN) {
 
         voltage = (analogRead(PH_PIN) / 4096.0F) * 5000;
 
-        phValue = ph.readPH(voltage, readTemperature()); // convert voltage to pH with temperature compensation
+        phValue = abs(ph.readPH(voltage, readTemperature())); // convert voltage to pH with temperature compensation
         Serial.print("pH:");
         Serial.println(phValue);
     }
@@ -292,11 +313,14 @@ float readSoilMoisture(uint8_t pin) {
 }
 
 void loop() {
-    readEC(ec_pin);
-    readPh(ph_pin);
+    affiche1("Temperature: " + (String) readTemperature() + " C" + '\n' + "EC: " + (String) readEC(ec_pin) + " ms/cm" +
+             '\n' + "Dissolved O2: " + (String) readO2(o2_pin) + '\n' + "pH: " + (String) readPh(ph_pin) + '\n' +
+             "Soil Moisture: " + (String) readSoilMoisture(SoilMoisture_pin) + " %");
+
+    /*readPh(ph_pin);
     readO2(o2_pin);
-    readSoilMoisture(SoilMoisture_pin);
-    send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
-                     readTemperature());
+    readSoilMoisture(SoilMoisture_pin);*/
+    /*send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
+                     readTemperature());*/
 
 }
