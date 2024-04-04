@@ -1,15 +1,18 @@
-greenponik/DFRobot_ESP_PH_WITH_ADC_BY_GREENPONIK @ 1.2.3
+bblanchon/ArduinoJson @ ~7.0.4
+bblanchon/ArduinoJson @ 7.0.4
 milesburton/DallasTemperature @ ~3.11.0
-milesburton/DallasTemperature @ ^3.11.0
-greenponik/DFRobot_ESP_PH_WITH_ADC_BY_GREENPONIK @ ~1.2.3
-mobizt/Firebase Arduino Client Library for ESP8266 and ESP32 @ ~4.4.14
-greenponik/DFRobot_ESP_PH_WITH_ADC_BY_GREENPONIK @ ^1.2.3
-greenponik/DFRobot_ESP_EC_BY_GREENPONIK @ ^1.1.4
 milesburton/DallasTemperature @ 3.11.0
 greenponik/DFRobot_ESP_EC_BY_GREENPONIK @ ~1.1.4
+bblanchon/ArduinoJson @ ^7.0.4
+mobizt/Firebase Arduino Client Library for ESP8266 and ESP32 @ ~4.4.14
+greenponik/DFRobot_ESP_EC_BY_GREENPONIK @ ^1.1.4
+greenponik/DFRobot_ESP_EC_BY_GREENPONIK @ 1.1.4
 adafruit/Adafruit SSD1306 @ ^2.5.9
 mobizt/Firebase Arduino Client Library for ESP8266 and ESP32 @ ^4.4.14
-mobizt/Firebase Arduino Client Library for ESP8266 and ESP32 @ 4.4.14
-adafruit/Adafruit SSD1306 @ 2.5.9
-greenponik/DFRobot_ESP_EC_BY_GREENPONIK @ 1.1.4
 adafruit/Adafruit SSD1306 @ ~2.5.9
+milesburton/DallasTemperature @ ^3.11.0
+greenponik/DFRobot_ESP_PH_WITH_ADC_BY_GREENPONIK @ ^1.2.3
+adafruit/Adafruit SSD1306 @ 2.5.9
+greenponik/DFRobot_ESP_PH_WITH_ADC_BY_GREENPONIK @ ~1.2.3
+mobizt/Firebase Arduino Client Library for ESP8266 and ESP32 @ 4.4.14
+greenponik/DFRobot_ESP_PH_WITH_ADC_BY_GREENPONIK @ 1.2.3

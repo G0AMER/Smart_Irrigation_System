@@ -5,20 +5,24 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <WiFi.h>
+#include <ArduinoJson.h>
 #include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 #include "time.h"
 
 // WiFi credentials
-#define WIFI_SSID "GARGOURI"
-#define WIFI_PASSWORD "05254872"
+/*#define WIFI_SSID "GARGOURI"
+#define WIFI_PASSWORD "05254872"*/
+#define WIFI_SSID "G0AMER 9708"
+#define WIFI_PASSWORD "00000000"
 
 // Insert Authorized Email and Corresponding Password
 #define USER_EMAIL "system1@login.com"
 #define USER_PASSWORD "system1"
 
 // Firebase credentials
+#define FIREBASE_PROJECT_ID "smart-irrigation-74f17"
 #define API_KEY "AIzaSyDV924r10N-EcnC-RbeOVyjZldoncvOe6g "                                             // Replace with your Firebase API key
 #define DATABASE_URL "https://smart-irrigation-74f17-default-rtdb.europe-west1.firebasedatabase.app/"  // Replace with your Firebase database URL
 
@@ -74,6 +78,7 @@ uint8_t temperature_pin = 25;
 
 #define SCREEN_WIDTH 128  // OLED display width
 #define SCREEN_HEIGHT 64  // OLED display height
+#define LED 2
 
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
@@ -148,12 +153,15 @@ void setup() {
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // Address 0x3C for 128x32
     display.clearDisplay();
     display.display();
+    pinMode(LED, OUTPUT);
     /*display.setFont(&FreeSerifBold9pt7b);*/
     affiche1("READY");
     // Connect to WiFi
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     while (WiFi.status() != WL_CONNECTED) {
         Serial.println("Connecting to WiFi...");
+        affiche1("Connecting to WiFi...");
+        digitalWrite(LED, HIGH);
         delay(300);
     }
     Serial.println();
@@ -225,6 +233,67 @@ void send_to_firebase(float ec, float o2, float ph, float moisture, float tem) {
         Serial.printf("Set json... %s\n",
                       Firebase.RTDB.setJSON(&fbdo, parentPath.c_str(), &json) ? "ok" : fbdo.errorReason().c_str());
 
+    }
+}
+
+void open_valve() {
+    digitalWrite(LED, HIGH);
+}
+
+void close_valve() {
+    digitalWrite(LED, LOW);
+}
+
+String path = "valve_state";
+
+void readFromFirestore() {
+    Serial.print("Get entire collection... ");
+    if (Firebase.Firestore.getDocument(&fbdo, FIREBASE_PROJECT_ID, "", path.c_str(), "")) {
+        Serial.println("ok");
+
+        Serial.println(fbdo.payload().c_str());
+
+        DynamicJsonDocument doc(1024);
+
+        DeserializationError error = deserializeJson(doc, fbdo.payload().c_str());
+
+        if (error) {
+            Serial.print("deserializeJson() failed: ");
+            Serial.println(error.c_str());
+            return;
+        }
+
+        JsonArray documents = doc["documents"];
+        JsonObject document = documents[0];
+        const char *document_name = document["name"];
+
+        JsonObject fields = document["fields"];
+
+        const char *valve_state = fields["valve_state"]["stringValue"];
+        const char *auto_mode = fields["auto-mode"]["stringValue"];
+
+        Serial.print("Document Name: ");
+        Serial.println(document_name);
+        Serial.print("Valve State: ");
+        Serial.println(valve_state);
+        Serial.print("Auto Mode: ");
+        Serial.println(auto_mode);
+
+        // Check if valve_state is "ON" or "OFF"
+        if (strcmp(valve_state, "ON") == 0) {
+            Serial.println("Valve state is ON");
+            open_valve();
+            // Perform actions if valve state is ON
+        } else if (strcmp(valve_state, "OFF") == 0) {
+            Serial.println("Valve state is OFF");
+            close_valve();
+            // Perform actions if valve state is OFF
+        } else {
+            Serial.println("Unknown valve state");
+        }
+
+    } else {
+        Serial.println("Failed to get document from Firestore: " + fbdo.errorReason());
     }
 }
 
@@ -313,10 +382,10 @@ float readSoilMoisture(uint8_t pin) {
 }
 
 void loop() {
-    affiche1("Temperature: " + (String) readTemperature() + " C" + '\n' + "EC: " + (String) readEC(ec_pin) + " ms/cm" +
+    /*affiche1("Temperature: " + (String) readTemperature() + " C" + '\n' + "EC: " + (String) readEC(ec_pin) + " ms/cm" +
              '\n' + "Dissolved O2: " + (String) readO2(o2_pin) + '\n' + "pH: " + (String) readPh(ph_pin) + '\n' +
-             "Soil Moisture: " + (String) readSoilMoisture(SoilMoisture_pin) + " %");
-
+             "Soil Moisture: " + (String) readSoilMoisture(SoilMoisture_pin) + " %");*/
+    readFromFirestore();
     /*readPh(ph_pin);
     readO2(o2_pin);
     readSoilMoisture(SoilMoisture_pin);*/
