@@ -14,8 +14,8 @@
 // WiFi credentials
 /*#define WIFI_SSID "GARGOURI"
 #define WIFI_PASSWORD "05254872"*/
-#define WIFI_SSID "G0AMER 9708"
-#define WIFI_PASSWORD "00000000"
+#define WIFI_SSID "iPhone"
+#define WIFI_PASSWORD "doudou2007"
 
 // Insert Authorized Email and Corresponding Password
 #define USER_EMAIL "system1@login.com"
@@ -143,6 +143,8 @@ void affiche1(String s) {
 
 }
 
+void verifyHibernateTime();
+
 void setup() {
     Serial.begin(115200);
     EEPROM.begin(32);//needed EEPROM.begin to store calibration k in eeprom
@@ -166,7 +168,9 @@ void setup() {
     }
     Serial.println();
     Serial.print("Connected to WiFi with IP: ");
+    affiche1("Connected to WiFi with IP: ");
     Serial.println(WiFi.localIP());
+    affiche1(WiFi.localIP().toString());
     Serial.println();
 
     config.api_key = API_KEY;
@@ -177,6 +181,7 @@ void setup() {
 
     if (Firebase.signUp(&config, &auth, "", "")) {
         Serial.println("signUp OK");
+        affiche1("signUp OK");
         signupOK = true;
     } else {
         Serial.printf("%s\n", config.signer.signupError.message.c_str());
@@ -204,10 +209,12 @@ void setup() {
     uid = auth.token.uid.c_str();
     Serial.print("User UID: ");
     Serial.println(uid);
+    affiche1("User UID: ");
+    affiche1(uid);
 
     // Update database path
     databasePath = "/SystemsData/" + uid + "/readings";
-
+    verifyHibernateTime();
     setCpuFrequencyMhz(81);
 }
 
@@ -381,15 +388,109 @@ float readSoilMoisture(uint8_t pin) {
     return _moisture;
 }
 
+// Hibernate duration variables
+unsigned long hibernateDuration = 2;
+unsigned long lastHibernateTimestamp = 0;
+// Firebase paths
+String HIBERNATE_TIME_PATH = "/hibernate_time";
+
+// Function to read hibernate time from Firebase
+void readHibernateTime() {
+    if (Firebase.Firestore.getDocument(&fbdo, FIREBASE_PROJECT_ID, "", HIBERNATE_TIME_PATH.c_str(), "")) {
+        Serial.println("ok");
+
+        Serial.println(fbdo.payload().c_str());
+
+        DynamicJsonDocument doc(1024);
+
+        DeserializationError error = deserializeJson(doc, fbdo.payload().c_str());
+
+        if (error) {
+            Serial.print("deserializeJson() failed: ");
+            Serial.println(error.c_str());
+            return;
+        }
+
+        JsonArray documents = doc["documents"];
+        JsonObject document = documents[0];
+        const char *document_name = document["name"];
+
+        JsonObject fields = document["fields"];
+
+        const char *hibernate = fields["hibernate"]["integerValue"];
+        const char *wakeup = fields["wakeup"]["integerValue"];
+
+        Serial.print("Document Name: ");
+        Serial.println(document_name);
+        Serial.print("hibernate: ");
+        Serial.println(hibernate);
+        Serial.print("wakeup: ");
+        Serial.println(wakeup);
+
+        // Check if valve_state is "ON" or "OFF"
+        if (hibernate != NULL && wakeup != NULL) {
+            hibernateDuration = std::stoul(hibernate, nullptr, 0);
+            affiche1((String) hibernateDuration + "\n" + (String) wakeup);
+
+
+        }
+
+        /*   if (Firebase.ready()) {
+               if (Firebase.getString(&fbdo, FIREBASE_PROJECT_ID, HIBERNATE_TIME_PATH)) {
+                   hibernateDuration = fbdo.stringData().toInt() * 1000; // Convert seconds to milliseconds
+                   Serial.print("Hibernate time read from Firebase: ");
+                   Serial.println(hibernateDuration);
+               } else {
+                   Serial.print("Failed to read hibernate time from Firebase: ");
+                   Serial.println(fbdo.errorReason());
+               }
+           } else {
+               Serial.println("Firebase not ready");
+           }*/
+    }
+}
+
+void verifyHibernateTime() {
+    // Read hibernate time from Firebase
+    readHibernateTime();
+
+    // Update the timestamp of the last hibernate action
+    lastHibernateTimestamp = millis();
+}
+
+void enterHibernateMode() {
+    Serial.println("Entering hibernate mode...");
+
+    // Configure power domains for deep sleep
+
+    verifyHibernateTime();
+    // Configure hibernate wake-up timer
+    esp_sleep_enable_timer_wakeup(hibernateDuration * 1000 * 1000); // Convert seconds to microseconds
+    esp_deep_sleep_start();
+}
+
+
 void loop() {
     /*affiche1("Temperature: " + (String) readTemperature() + " C" + '\n' + "EC: " + (String) readEC(ec_pin) + " ms/cm" +
              '\n' + "Dissolved O2: " + (String) readO2(o2_pin) + '\n' + "pH: " + (String) readPh(ph_pin) + '\n' +
-             "Soil Moisture: " + (String) readSoilMoisture(SoilMoisture_pin) + " %");*/
-    readFromFirestore();
+             "Soil Moisture: " + (String) readSoilMoisture(SoilMoisture_pin) + " %");
+    readFromFirestore();*/
+
     /*readPh(ph_pin);
     readO2(o2_pin);
     readSoilMoisture(SoilMoisture_pin);*/
     /*send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
                      readTemperature());*/
+    if (millis() - lastHibernateTimestamp >= hibernateDuration) {
+        send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
+                         readTemperature());
+        // Perform actions before entering hibernate mode (e.g., measure data and send to Firebase)
+        affiche1("Measuring data and sending to Firebase...");
+
+        // Enter hibernate mode
+        enterHibernateMode();
+        affiche1("wakeup");
+
+    }
 
 }
