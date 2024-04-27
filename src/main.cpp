@@ -595,7 +595,7 @@ void loop() {
                          readTemperature());
         // Perform actions before entering hibernate mode (e.g., measure data and send to Firebase)
         readFromFirestore();
-        affiche1("Measuring data and sending to Firebase...manual_mode");
+        affiche1("Measuring data and sending to Firebase...\nmanual_mode");
         /*if (millis() - lastHibernateTimestamp >= hibernateDuration) {
                 enterHibernateMode();
                 affiche1("wakeup");
