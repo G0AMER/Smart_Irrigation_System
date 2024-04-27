@@ -9,13 +9,14 @@
 #include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
+
 #include "time.h"
 
 // WiFi credentials
-/*#define WIFI_SSID "GARGOURI"
-#define WIFI_PASSWORD "05254872"*/
-#define WIFI_SSID "iPhone"
-#define WIFI_PASSWORD "doudou2007"
+#define WIFI_SSID "GARGOURI"
+#define WIFI_PASSWORD "05254872"
+/*#define WIFI_SSID "iPhone"
+#define WIFI_PASSWORD "doudou2007"*/
 
 // Insert Authorized Email and Corresponding Password
 #define USER_EMAIL "system1@login.com"
@@ -123,7 +124,7 @@ uint16_t DO;
 
 int16_t readDO(uint32_t voltage_mv, uint8_t temperature_c) {
 #if TWO_POINT_CALIBRATION == 0
-    uint16_t V_saturation = (uint32_t) CAL1_V + (uint32_t) 35 * temperature_c - (uint32_t) CAL1_T * 35;
+    uint16_t V_saturation = (uint32_t)CAL1_V + (uint32_t) 35 * temperature_c - (uint32_t)CAL1_T * 35;
     return (voltage_mv * DO_Table[temperature_c] / V_saturation);
 #else
     uint16_t V_saturation = (int16_t)((int8_t)temperature_c - CAL2_T) * ((uint16_t)CAL1_V - CAL2_V) / ((uint8_t)CAL1_T - CAL2_T) + CAL2_V;
@@ -252,8 +253,10 @@ void close_valve() {
 }
 
 String path = "valve_state";
+bool auto_mode_state = true;
 
-void readFromFirestore() {
+int readFromFirestore() {
+    const char *valve_state;
     Serial.print("Get entire collection... ");
     if (Firebase.Firestore.getDocument(&fbdo, FIREBASE_PROJECT_ID, "", path.c_str(), "")) {
         Serial.println("ok");
@@ -267,7 +270,7 @@ void readFromFirestore() {
         if (error) {
             Serial.print("deserializeJson() failed: ");
             Serial.println(error.c_str());
-            return;
+            return NULL;
         }
 
         JsonArray documents = doc["documents"];
@@ -276,7 +279,7 @@ void readFromFirestore() {
 
         JsonObject fields = document["fields"];
 
-        const char *valve_state = fields["valve_state"]["stringValue"];
+        valve_state = fields["valve_state"]["stringValue"];
         const char *auto_mode = fields["auto-mode"]["stringValue"];
 
         Serial.print("Document Name: ");
@@ -285,7 +288,11 @@ void readFromFirestore() {
         Serial.println(valve_state);
         Serial.print("Auto Mode: ");
         Serial.println(auto_mode);
-
+        if (strcmp(auto_mode, "ON") == 0) {
+            auto_mode_state = true;
+        } else if (strcmp(auto_mode, "OFF") == 0) {
+            auto_mode_state = false;
+        }
         // Check if valve_state is "ON" or "OFF"
         if (strcmp(valve_state, "ON") == 0) {
             Serial.println("Valve state is ON");
@@ -302,7 +309,67 @@ void readFromFirestore() {
     } else {
         Serial.println("Failed to get document from Firestore: " + fbdo.errorReason());
     }
+    return strcmp(valve_state, "ON");
 }
+
+
+bool check_auto_mode() {
+    const char *valve_state;
+    Serial.print("Get entire collection... ");
+    if (Firebase.Firestore.getDocument(&fbdo, FIREBASE_PROJECT_ID, "", path.c_str(), "")) {
+        Serial.println("ok");
+
+        Serial.println(fbdo.payload().c_str());
+
+        DynamicJsonDocument doc(1024);
+
+        DeserializationError error = deserializeJson(doc, fbdo.payload().c_str());
+
+        if (error) {
+            Serial.print("deserializeJson() failed: ");
+            Serial.println(error.c_str());
+            return NULL;
+        }
+
+        JsonArray documents = doc["documents"];
+        JsonObject document = documents[0];
+        const char *document_name = document["name"];
+
+        JsonObject fields = document["fields"];
+
+        valve_state = fields["valve_state"]["stringValue"];
+        const char *auto_mode = fields["auto-mode"]["stringValue"];
+
+        Serial.print("Document Name: ");
+        Serial.println(document_name);
+        Serial.print("Valve State: ");
+        Serial.println(valve_state);
+        Serial.print("Auto Mode: ");
+        Serial.println(auto_mode);
+        if (strcmp(auto_mode, "ON") == 0) {
+            auto_mode_state = true;
+        } else if (strcmp(auto_mode, "OFF") == 0) {
+            auto_mode_state = false;
+        }
+        // Check if valve_state is "ON" or "OFF"
+        if (strcmp(valve_state, "ON") == 0) {
+            Serial.println("Valve state is ON");
+            open_valve();
+            // Perform actions if valve state is ON
+        } else if (strcmp(valve_state, "OFF") == 0) {
+            Serial.println("Valve state is OFF");
+            close_valve();
+            // Perform actions if valve state is OFF
+        } else {
+            Serial.println("Unknown valve state");
+        }
+
+    } else {
+        Serial.println("Failed to get document from Firestore: " + fbdo.errorReason());
+    }
+    return auto_mode_state;
+}
+
 
 float readTemperature() {
 
@@ -469,6 +536,7 @@ void enterHibernateMode() {
     esp_deep_sleep_start();
 }
 
+unsigned long c;
 
 void loop() {
     /*affiche1("Temperature: " + (String) readTemperature() + " C" + '\n' + "EC: " + (String) readEC(ec_pin) + " ms/cm" +
@@ -481,16 +549,57 @@ void loop() {
     readSoilMoisture(SoilMoisture_pin);*/
     /*send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
                      readTemperature());*/
-    if (millis() - lastHibernateTimestamp >= hibernateDuration) {
+
+    while (check_auto_mode()) {
+        c = millis();
+        while (millis() - c < 3000) {
+            open_valve();
+            send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
+                             readTemperature());
+            affiche1("Measuring data and sending to Firebase...\nauto_mode\ncycle mode");
+            readFromFirestore();
+            /*if (millis() - lastHibernateTimestamp >= hibernateDuration) {
+                enterHibernateMode();
+                affiche1("wakeup");
+            }*/
+        }
+        close_valve();
+        c = millis();
+        while (millis() - c < 10000 && readFromFirestore() != 0) {
+            send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
+                             readTemperature());
+            // Perform actions before entering hibernate mode (e.g., measure data and send to Firebase)
+            affiche1("Measuring data and sending to Firebase...\nauto_mode\ncycle mode");
+            readFromFirestore();
+            // Enter hibernate mode
+            /*if (millis() - lastHibernateTimestamp >= hibernateDuration) {
+                enterHibernateMode();
+                affiche1("wakeup");
+            }*/
+        }
+        while (readFromFirestore() == 0) {
+            send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
+                             readTemperature());
+            // Perform actions before entering hibernate mode (e.g., measure data and send to Firebase)
+            affiche1("Measuring data and sending to Firebase...\nauto_mode\nvalve on");
+            open_valve();
+            /*if (millis() - lastHibernateTimestamp >= hibernateDuration) {
+                enterHibernateMode();
+                affiche1("wakeup");
+            }*/
+        }
+        close_valve();
+    }
+    while (!check_auto_mode()) {
         send_to_firebase(readEC(ec_pin), readO2(o2_pin), readPh(ph_pin), readSoilMoisture(SoilMoisture_pin),
                          readTemperature());
         // Perform actions before entering hibernate mode (e.g., measure data and send to Firebase)
-        affiche1("Measuring data and sending to Firebase...");
-
-        // Enter hibernate mode
-        enterHibernateMode();
-        affiche1("wakeup");
-
+        readFromFirestore();
+        affiche1("Measuring data and sending to Firebase...manual_mode");
+        /*if (millis() - lastHibernateTimestamp >= hibernateDuration) {
+                enterHibernateMode();
+                affiche1("wakeup");
+            }*/
     }
-
 }
+
