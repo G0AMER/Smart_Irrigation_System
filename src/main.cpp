@@ -456,6 +456,8 @@ float readSoilMoisture(uint8_t pin) {
 }
 
 // Hibernate duration variables
+
+//sec
 unsigned long hibernateDuration = 2;
 unsigned long lastHibernateTimestamp = 0;
 // Firebase paths
